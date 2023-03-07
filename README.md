@@ -3,9 +3,11 @@
 ## Installation instructions for Windows
 
 Getting started like in the lab sessions:
+
 - copy all the javacard jar files for the eclipse plugin into the dropins folder
 - change, if needed, the location of the Java Card development kit in the preferences of the JCWDE menu
 - modify the same exportpath in the CAPGenerationScript.txt (found in the JavaCard project)
+- Added
 
 Starting the different Java projects:
 - You can run the Government, the Middleware and ServiceProvider as a Java application. You can run the JavaCard applet with the JCWDE simulator.
