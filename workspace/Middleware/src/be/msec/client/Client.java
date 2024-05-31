@@ -241,7 +241,7 @@ public class Client {
             System.out.print("Message reply from server: ");
 
             String msgFromGServer = bufferedReader.readLine();
-            if (msgFromGServer.equalsIgnoreCase("Abort")) {
+            if ("Abort".equalsIgnoreCase(msgFromGServer)) {
                 communication.append("Error in timeserver\n");
                 try {
                     throw new Exception("Error in timeserver");
@@ -290,7 +290,7 @@ public class Client {
 
     private void authenticateServiceProvider() throws Exception {
         String certificateMessage = activeServiceProviderReader.readLine();
-        if (certificateMessage.equalsIgnoreCase("Abort")) {
+        if ("Abort".equalsIgnoreCase(certificateMessage)) {
             communication.append("Error in connection with service provider\n");
             try {
                 throw new Exception("Error in service provider");

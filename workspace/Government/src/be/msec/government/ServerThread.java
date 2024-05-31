@@ -60,7 +60,7 @@ public class ServerThread extends Thread {
             
 			String message = null;
 			while ((message = inputReader.readLine()) != null) {
-				if (message.equals(MSG_GET_TIME)) {
+				if (MSG_GET_TIME.equals(message)) {
 					try {
 						outputWriter.println(byteArrayToHexString(getRevalidationRequest()));
 					} catch (InvalidKeyException e) {

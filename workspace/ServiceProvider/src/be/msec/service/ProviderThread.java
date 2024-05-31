@@ -294,7 +294,7 @@ public class ProviderThread extends Thread {
             boolean sig_verify = false;
             if (new_date.after(common_cert.getNotBefore())
                     && new_date.before(common_cert.getNotAfter())
-                    && common_cert.getSubjectDN().getName().equals("OID.0.9.2342.19200300.100.4.13=common, CN=COMMON, O=VUB, L=Brussels, ST=Brussels, C=BE")
+                    && "OID.0.9.2342.19200300.100.4.13=common, CN=COMMON, O=VUB, L=Brussels, ST=Brussels, C=BE".equals(common_cert.getSubjectDN().getName())
                     && cert_verify) {
                 // verify signature on challenge with pk from common certificate
             	//https://msec.be/wiscy/seminarie/ho_sc.pdf
@@ -358,7 +358,7 @@ public class ProviderThread extends Thread {
             , InvalidKeyException, InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException {
         String result;
 
-        if (message.equalsIgnoreCase("Bad query")) {
+        if ("Bad query".equalsIgnoreCase(message)) {
             result = "Abort.";
             state = INITIALIZE;
         } else {
