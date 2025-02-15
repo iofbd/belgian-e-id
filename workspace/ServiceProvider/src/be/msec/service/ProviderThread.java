@@ -1,5 +1,6 @@
 package be.msec.service;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -96,7 +97,7 @@ public class ProviderThread extends Thread {
             state = SENT_CERTIFICATE_WAITING_FOR_CARD_CHALLENGE;
 
             String message = null;
-            while ((message = middlewareReader.readLine()) != null) {
+            while ((message = BoundedLineReader.readLine(middlewareReader, 5_000_000)) != null) {
 
                 Provider.logging.setText(Provider.logging.getText() + "\nMessage received");
 
