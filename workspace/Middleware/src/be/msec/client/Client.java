@@ -2,6 +2,7 @@ package be.msec.client;
 
 import be.msec.client.connection.IConnection;
 import be.msec.client.connection.SimulatedConnection;
+import io.github.pixee.security.BoundedLineReader;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocket;
@@ -240,7 +241,7 @@ public class Client {
 
             System.out.print("Message reply from server: ");
 
-            String msgFromGServer = bufferedReader.readLine();
+            String msgFromGServer = BoundedLineReader.readLine(bufferedReader, 5_000_000);
             if (msgFromGServer.equalsIgnoreCase("Abort")) {
                 communication.append("Error in timeserver\n");
                 try {
@@ -289,7 +290,7 @@ public class Client {
     }
 
     private void authenticateServiceProvider() throws Exception {
-        String certificateMessage = activeServiceProviderReader.readLine();
+        String certificateMessage = BoundedLineReader.readLine(activeServiceProviderReader, 5_000_000);
         if (certificateMessage.equalsIgnoreCase("Abort")) {
             communication.append("Error in connection with service provider\n");
             try {
@@ -349,7 +350,7 @@ public class Client {
             //System.out.println("Client: " + byteArrayToHexString(sp_auth_response).substring(14));
 
             // step 2 (13) send the response to the card
-            String serviceResponse = activeServiceProviderReader.readLine();
+            String serviceResponse = BoundedLineReader.readLine(activeServiceProviderReader, 5_000_000);
             System.out.println("Service response: " + serviceResponse);
             cardCommandAPDU = new CommandAPDU(IDENTITY_CARD_CLA, SERVICE_RESP_CHALLENGE, 0x00, 0x00, hexStringToByteArray(serviceResponse));
             cardResponseAPDU = connectionWithCard.transmit(cardCommandAPDU);
@@ -385,7 +386,7 @@ public class Client {
         System.out.println("Client: " + service_chall_response_hex);
         activeServiceProviderWriter.println(service_chall_response_hex);
 
-        String serviceProviderResponse = activeServiceProviderReader.readLine();
+        String serviceProviderResponse = BoundedLineReader.readLine(activeServiceProviderReader, 5_000_000);
         System.out.println("Server: " + serviceProviderResponse);
         if ("Abort".equals(serviceProviderResponse)) {
             throw new Exception("Service provider refused to authenticate the card!");
@@ -480,7 +481,7 @@ public class Client {
         System.out.println("Client: " + query);
         activeServiceProviderWriter.println(query);
 
-        System.out.println("Server: " + activeServiceProviderReader.readLine());
+        System.out.println("Server: " + BoundedLineReader.readLine(activeServiceProviderReader, 5_000_000));
 
         communication.append("Data is sent to server. Check the output tab!\n");
     }

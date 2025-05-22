@@ -1,4 +1,5 @@
 package be.msec.government;
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class ServerThread extends Thread {
             
             
 			String message = null;
-			while ((message = inputReader.readLine()) != null) {
+			while ((message = BoundedLineReader.readLine(inputReader, 5_000_000)) != null) {
 				if (message.equals(MSG_GET_TIME)) {
 					try {
 						outputWriter.println(byteArrayToHexString(getRevalidationRequest()));
